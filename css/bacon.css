@@ -1,0 +1,60 @@
+.reveal section img.bacon {
+  position: absolute;
+  display: block;
+  width: 400px;
+  height: 200px;
+  top: 30%;
+  left: 30%;
+  z-index: 100;
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+.notes {
+  display: none;
+}
+
+#register {
+  font-size: 20px;
+}
+#register button {
+  border-radius: 10px;
+}
+#register label {
+  margin-right: 10px;
+}
+.reaktor {
+  background: url("../images/Reaktor_Logo_Black.png");
+  background-size: 150px;
+  background-repeat: no-repeat;
+  background-position: 0 center;
+  display: inline-block;
+  width: 150px;
+  color: rgba(0,0,0,0);
+}
+
+.spreadsheet input {
+  font-size: 20px;
+  width: 50px;
+}
+
+endresult {
+  display: none;
+}
+
+section.side-by-side > div {
+  margin-right: 1em;
+  float: left;
+}
+
+section.side-by-side > div:last-child {
+  float: right;
+}
+
+html .reveal section img {
+  border: 0;
+  max-height: 15em;
+  box-shadow: none;
+  background: none;
+}
+

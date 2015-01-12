@@ -1,0 +1,24 @@
+{
+	"name": "baconjs-elisa-2015.js",
+	"version": "2.2.0",
+	"description": "Bacon.js presentation",
+	"engines": {
+		"node": "~0.8.0"
+	},
+	"scripts": {
+		"test": "grunt lint qunit"
+	},
+	"dependencies": {
+		"underscore" : "~1.3.3",
+		"express" : "~3",
+		"socket.io" : "~0.9.6",
+		"mustache" : "~0.4.0",
+		"baconjs" : "~0.7",
+		"bacon.matchers" : "~0",
+		"lodash" : "~2"
+	},
+	"devDependencies": {
+		"grunt-contrib-mincss": "~0.3.1",
+		"grunt": "~0.3.17"
+	}
+}

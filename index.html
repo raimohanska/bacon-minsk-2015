@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>FRP with Bacon.js</title>
+
+		<meta name="description" content="FRP with Bacon.js">
+		<meta name="author" content="Juha Paananen">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<link rel="stylesheet" href="css/bacon.css">
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+	</head>
+
+	<body>
+		<div class="reveal">
+			<!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+<h2>Bacon.js and FRP</h2>
+<img src="images/badassbacon.png">
+          <p>Juha Paananen @raimohanska</p>
+        </section>
+        <section>
+        <h2>Agenda</h2>
+        <ul><li>What is Bacon.js
+          <li>Why is it relevant to you
+          <li>Where does it apply
+          <li>Real-life examples
+        </ul>
+        </section>
+        
+        <section>
+        <h2>Bacon.js</h2>
+        <ul><li>Helps you deal with Events and State
+          <li>Not a framework, compatible with any
+          <li>Frontend and backend
+          <li>Promotes FP principles
+        </ul>
+        </section>
+
+        <section class="side-by-side">
+          <div>
+            <h3>EventStream</h3>
+            <p>Distinct Events</p>
+          </div>
+          <div>
+            <h3>Property</h3>
+            <p>Time-varying Value</p>
+          </div>
+        </section>
+        
+        <section class="side-by-side">
+          <div>
+            <h3>EventStream</h3>
+            <p>addToCartE</p>
+          </div>
+          <div>
+            <h3>Property</h3>
+            <p>cartContentsP</p>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="property-demo">Shopping Cart</h2>
+          <div class="shoppingcart">
+          <input type="text" id="itemName" placeholder="item name">
+          <button id="addItem">Add</button>
+          </div>
+          <pre><code contenteditable class="runnable">
+var addToCartE = $("#addItem")
+  .asEventStream("click")
+  .map(function() { return $("#itemName").val() })
+
+addToCartE.show()
+          </code></pre>
+<endresult>
+var addToCartE = $("#addItem").asEventStream("click")
+  .map(function(event) { return $("#itemName").val() })
+
+var contentsP = Bacon.update([],
+  addToCartE, function(items, item) { return items.concat(item) }
+)
+
+contentsP.show()
+</endresult>
+        </section>
+
+<section>
+  <h2>Bacon Application</h2>
+  <img src="images/components.png">
+</section>
+
+<section>
+  <h2>Bacon and React</h2>
+  <img src="images/components_react.png">
+</section>
+
+<section>
+  <h2>Bacon and Angular</h2>
+  <img src="images/components_angular.png">
+</section>
+        
+        <section>
+          <h1>K THX BYE</h1>
+          <h4>Bacon.js @raimohanska</h4>
+        </section>
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+		<script src="js/jquery.js"></script>
+
+		<script>
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+    <script src="js/Bacon.js"></script>
+    <script src="js/bacon.matchers.js"></script>
+    <script src="js/lodash.js"></script>
+    <script src="bacon-preso.js"> </script>
+	</body>
+</html>
