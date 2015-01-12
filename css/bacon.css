@@ -45,10 +45,12 @@ endresult {
 section.side-by-side > div {
   margin-right: 1em;
   float: left;
+  width: 45%;
 }
 
 section.side-by-side > div:last-child {
   float: right;
+  border-left: 1px solid #222222;
 }
 
 html .reveal section img {
@@ -58,3 +60,6 @@ html .reveal section img {
   background: none;
 }
 
+.reveal section li {
+  list-style: none;
+}

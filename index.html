@@ -36,8 +36,9 @@
           <p>Juha Paananen @raimohanska</p>
         </section>
         <section>
-        <h2>Agenda</h2>
-        <ul><li>What is Bacon.js
+        <h2>~Agenda~</h2>
+        <ul>
+          <li>Tiny intro
           <li>Why is it relevant to you
           <li>Where does it apply
           <li>Real-life examples
@@ -45,7 +46,7 @@
         </section>
         
         <section>
-        <h2>Bacon.js</h2>
+        <h2>~Bacon.js~</h2>
         <ul><li>Helps you deal with Events and State
           <li>Not a framework, compatible with any
           <li>Frontend and backend
@@ -84,9 +85,9 @@
           <pre><code contenteditable class="runnable">
 var addToCartE = $("#addItem")
   .asEventStream("click")
-  .map(function() { return $("#itemName").val() })
+  .map(function(jqEvent) { return $("#itemName").val() })
 
-addToCartE.show()
+addToCartE.onValue(bubble)
           </code></pre>
 <endresult>
 var addToCartE = $("#addItem").asEventStream("click")
@@ -96,7 +97,7 @@ var contentsP = Bacon.update([],
   addToCartE, function(items, item) { return items.concat(item) }
 )
 
-contentsP.show()
+contentsP.onValue(bubble)
 </endresult>
         </section>
 
@@ -116,10 +117,11 @@ contentsP.show()
 </section>
 
 <section>
-  <h2>Last words</h2>
+  <h2>~Last words~</h2>
   <ul>
 <li>Abstractions for events and state
 <li>Low-level to application-level
+<li>Plugs into anything
 <li>No silver bullet
 </ul>
 </section>
