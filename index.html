@@ -130,7 +130,7 @@ function ShoppingCart(addItemE, removeItemE) {
 
 <section>
   <h2>Bacon inside a single component</h2>
-  <pre><code contenteditable>
+  <pre><code>
     var searchElementInitialTop = searchElement.position().top
     var scrollEvents = $(window)
       .asEventStream('scroll')
@@ -147,8 +147,47 @@ function ShoppingCart(addItemE, removeItemE) {
 </section>
 
 <section>
-  <h2>Bacon as a glue between components</h2>
+  <h2>Bacon as a glue between components - component</h2>
+  <pre><code>
+    // SimCardController.js
+    function SimCardController(...) {
+    // ...
+      var selectedSim = ListSelectionController(
+        simCardElement.find("ul"), 
+        simCards, 
+        simCardDealer.getInitialSimCardIndexForOrderRow(orderRow))
+        .selectedOption
+    // ...
+
+    return {
+      simCard: selectedSim.map(".id")
+    }
+  }
+  </code></pre>
 </section>
+
+<section>
+  <h2>Bacon as a glue between components - user</h2>
+  <pre><code>
+    // MobileSubscriptionOrderDetailsItemView.js
+    function MobileSubscriptionOrderDetailsItemView(...) {
+      var outputOrderRowTemplate = {
+        additionalInformation: {
+          simCard: simCardController.simCard
+        },
+        ...
+      }
+
+      return {
+        orderRow: function() { 
+          return Bacon.combineTemplate(outputOrderRowTemplate) 
+        },
+        ...
+      }
+    }
+  </code></pre>
+</section>
+
 
 <section>
   <h2>~Last words~</h2>
