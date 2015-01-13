@@ -125,6 +125,32 @@ function ShoppingCart(addItemE, removeItemE) {
 </section>
 
 <section>
+  <h2>Examples from Saunalahti webshop</h2>
+</section>
+
+<section>
+  <h2>Bacon inside a single component</h2>
+  <pre><code contenteditable>
+    var searchElementInitialTop = searchElement.position().top
+    var scrollEvents = $(window)
+      .asEventStream('scroll')
+      .takeUntil(stateExited)
+
+    scrollEvents
+      .map(function () { 
+        return $(document).scrollTop() + 80 > searchElementInitialTop 
+      })
+      .skipDuplicates()
+      .assign(searchElement, "toggleClass", "fixed")
+  </code></pre>
+  <a href="https://kauppa.saunalahti.fi/#!/puhelimet" target="_blank">Demo</a>
+</section>
+
+<section>
+  <h2>Bacon as a glue between components</h2>
+</section>
+
+<section>
   <h2>~Last words~</h2>
   <ul>
 <li>Abstractions for events and state
