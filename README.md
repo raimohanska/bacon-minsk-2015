@@ -1,8 +1,11 @@
 ### Bacon.js Presentation for Rolling Scopes Conference in Minsk 2015
 
+View the presentation online at http://raimohanska.github.io/bacon-minsk-2015
+
 Please use the arrow keys to navigate left/right and the links below code snippets to run/reveal my example code.
 
-View the slided online at http://raimohanska.github.io/bacon-minsk-2015
+The online version does not support Socket.IO, so the Mail Client example won't work. See instructions
+below for running locally.
 
 ### Description
 
