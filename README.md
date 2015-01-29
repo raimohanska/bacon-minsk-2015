@@ -1,4 +1,4 @@
-### Bacon.js Presentation for Elisa tech meetup
+### Bacon.js Presentation for Rolling Scopes Conference in Minsk 2015
 
 Please use the arrow keys to navigate left/right and the links below code snippets to run/reveal my example code.
 

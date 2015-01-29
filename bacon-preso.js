@@ -24,17 +24,19 @@ function keyState(keyCode, value) {
 }
 
 function bubble(text) {
+  text = (""+text).replace(" ", " ")
   var vmargin = $(window).height() * 0.1
   var vspace = $(window).height() - 100 - vmargin*2
-  var bubble = makeBubble(2, 10, 1.0, 1.0)
-  makeBubble(1.2, -1, 0.4, 0.7)
-  makeBubble(0.7, -1, 0.3, 0.5)
+  var fontSize = 5/(Math.pow(text.length, 1))
+  var bubbleSize = text.length * 0.5
+  var bubble = makeBubble(fontSize*2, bubbleSize*2, 10, 1.0, 1.0)
+  makeBubble(fontSize*1.2, bubbleSize*1.2, -1, 0.4, 0.7)
+  makeBubble(fontSize*0.7, bubbleSize*0.7, -1, 0.3, 0.5)
   return bubble
-  function makeBubble(fs, zind, op, hscale) {
+  function makeBubble(fs, bsize, zind, op, hscale) {
     var top = (typeof text == "string") 
       ? (text.charCodeAt(0) % 5) * vspace / 5 + vmargin
       : vmargin + Math.random()*vspace
-    var bsize = fs*2
     var bubble = $("<div>").text(text).addClass("bubble")
     var winWidth = $(window).width()
     var startX = (1-hscale)/2*winWidth - 100
@@ -59,6 +61,11 @@ function bubble(text) {
       .onValue(function() { bubble.remove() })
     return bubble
   }
+}
+
+var show = function(text) {
+  var delay = Math.random() * 2000
+  setTimeout(function() { bubble(text) }, delay)
 }
 
 Bacon.Observable.prototype.show = function() {
@@ -144,3 +151,33 @@ $("code.runnable").each(function() {
 })
 
 keyUps(13, ["alt"]).doAction(".preventDefault").onValue(runCode)
+
+emails = [
+  "Hello raimo",
+  "FREE DIAMONDS!!!",
+  "You Won In The Lottery!!!",
+  "Virus Alert!",
+  "How to Attract Girls",
+  "Your Password has Expired",
+  "I love you",
+  "Virus detected on your hard disk",
+  "Free virus scanner",
+  "Viagra 50% Discount NOW",
+  "ENLARGE your *****",
+  "SEX!",
+].map(function(subject) { return { subject: subject } })
+
+incomingEmailE = Bacon.repeatedly(500, emails)
+
+function isSpam() { return false }
+function isSpam2() { return true }
+
+function showInbox(items) {
+  var $inbox = $(".present .inbox")
+  $inbox.addClass("visible")
+  var $list = $inbox.find("ul")
+  $list.children().remove()
+  items.forEach(function(item) {
+    $list.append($("<li>").text(item.subject))
+  })
+}

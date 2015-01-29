@@ -64,3 +64,34 @@ html .reveal section img {
   list-style: none;
   margin: 0.25em 0;
 }
+
+.reveal div.inbox {
+position: fixed;
+top: -4em;
+right: 0;
+background: teal;
+padding: 0.6em;
+color: white;
+opacity: 0;
+transition: all 1s;
+z-index:1000;
+border-radius: 0.1em;
+box-shadow: 4px 4px 2px 0px rgba(0,0,0,0.75);
+}
+.reveal div.inbox.visible {
+opacity: 1;
+}
+.reveal div.inbox *{
+color: white;
+text-align: left;
+margin: 0;
+}
+.reveal div.inbox h4 {
+margin-bottom: 0.3em;
+text-decoration: underline;
+}
+.reveal div.inbox li {
+margin: 0;
+font-size: 0.5em;
+line-height: 1.5em;
+}

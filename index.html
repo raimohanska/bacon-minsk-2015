@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>Functional Reactive Programming (FRP) and library-based web stacks: Case Saunalahti webshop</title>
+		<title>Bacon.js</title>
 
 		<meta name="description" content="FRP with Bacon.js">
 		<meta name="author" content="Juha Paananen">
@@ -31,30 +31,38 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
       <div class="slides">
         <section>
-<h2>FRP and library-based web stacks</h2>
-<h3>Case Saunalahti webshop</h3>
+<h2>Bacon.js</h2>
 <img src="images/badassbacon.png">
           <p>Juha Paananen @raimohanska</p>
-          <p>Olli Mahlamäki @omahlama</p>
         </section>
         <section>
-        <h2>~Agenda~</h2>
-        <ul>
-          <li>Tiny intro
-          <li>Why is it relevant to you
-          <li>Where does it apply
-          <li>Real-life examples <br>from Saunalahti webshop
-        </ul>
+          <h2>FP</h2>
         </section>
         
         <section>
-        <h2>~Bacon.js~</h2>
-        <ul><li>Helps you deal with Events and State
-          <li>Not a framework, compatible with any<br>frontend and backend
-          <li>Promotes functional programming principles
-        </ul>
+          <h2>FP</h2>
+          <pre><code contenteditable class="runnable">
+// var emails : Array&lt;Email&gt;
+
+emails
+  .filter(function(mail) { return !isSpam(mail) })
+  .map(function(mail) { return mail.subject })
+  .forEach(show)
+          </code></pre>
         </section>
 
+        <section>
+          <h2>FRP - Bacon.js</h2>
+          <pre><code contenteditable class="runnable">
+// var incomingEmailE : EventStream&lt;Email&gt;
+
+incomingEmailE
+  .filter(function(mail) { return !isSpam(mail) })
+  .map(function(mail) { return mail.subject })
+  .forEach(show)
+          </code></pre>
+        </section>
+        
         <section class="side-by-side">
           <div>
             <h3>EventStream</h3>
@@ -69,47 +77,42 @@
         <section class="side-by-side">
           <div>
             <h3>EventStream</h3>
-            <p>addToCartE</p>
+            <p>incomingEmailE</p>
           </div>
           <div>
             <h3>Property</h3>
-            <p>cartContentsP</p>
+            <p>inboxP</p>
           </div>
         </section>
 
         <section>
-          <h2 class="property-demo">Shopping Cart</h2>
-          <div class="shoppingcart">
-          <input type="text" id="itemName" placeholder="item name">
-          <button id="addItem">Add</button>
-          </div>
+          <h2 class="property-demo">Mail Client</h2>
+<div class="inbox">
+  <h4>Inbox</h4>
+  <ul>
+  </ul>
+</div>
           <pre><code contenteditable class="runnable">
-var addToCartE = $("#addItem")
-  .asEventStream("click")
-  .map(function(jqEvent) { return $("#itemName").val() })
+var socket = io();                           // Connect with Socket.IO
+socket.emit("get-mail");                     // Request mail
+var mailE = Bacon.fromEvent(socket, "mail"); // Wrap into Bacon
 
-addToCartE.onValue(bubble)
+mailE
+  .map(".subject")
+  .onValue(bubble)
           </code></pre>
 <endresult>
-var addToCartE = $("#addItem").asEventStream("click")
-  .map(function(event) { return $("#itemName").val() })
+var socket = io();                           // Connect with Socket.IO
+socket.emit("get-mail");                     // Request mail
+var mailE = Bacon.fromEvent(socket, "mail"); // Wrap into Bacon
 
-var contentsP = Bacon.update([],
-  addToCartE, function(items, item) { return items.concat(item) }
-)
-
-contentsP.onValue(bubble)
+var inboxP = mailE
+  .take(10)
+  .bufferingThrottle(2000)
+  .scan([], ".concat")
+  .onValue(showInbox)
 </endresult>
         </section>
-      <section>
-        <h2>Shopping Cart</h2>
-        <pre><code contenteditable class="runnable">
-function ShoppingCart(addItemE, removeItemE) {
-  // ...
-  return { contentsP }
-}
-        </code></pre>
-      </section>
 
 <section>
   <h2>Bacon Application</h2>
@@ -127,85 +130,13 @@ function ShoppingCart(addItemE, removeItemE) {
 </section>
 
 <section>
-  <h2>Examples from Saunalahti webshop</h2>
-</section>
-
-<section>
-  <h2>Bacon inside a single component</h2>
-  <pre><code contenteditable>
-    var searchElementInitialTop = searchElement.position().top
-    var scrollEvents = $(window)
-      .asEventStream('scroll')
-      .takeUntil(stateExited)
-
-    scrollEvents
-      .map(function () { 
-        return $(document).scrollTop() + 80 > searchElementInitialTop 
-      })
-      .skipDuplicates()
-      .assign(searchElement, "toggleClass", "fixed")
-  </code></pre>
-  <a href="https://kauppa.saunalahti.fi/#!/puhelimet" target="_blank">Demo</a>
-</section>
-
-<section>
-  <h2>Bacon as a glue between components - component</h2>
-  <pre><code contenteditable>
-    // SimCardController.js
-    function SimCardController(...) {
-    // ...
-      var selectedSim = ListSelectionController(
-        simCardElement.find("ul"), 
-        simCards, 
-        simCardDealer.getInitialSimCardIndexForOrderRow(orderRow))
-        .selectedOption
-    // ...
-
-    return {
-      simCard: selectedSim.map(".id")
-    }
-  }
-  </code></pre>
-</section>
-
-<section>
-  <h2>Bacon as a glue between components - user</h2>
-  <pre><code contenteditable>
-    // MobileSubscriptionOrderDetailsItemView.js
-    function MobileSubscriptionOrderDetailsItemView(...) {
-      var outputOrderRowTemplate = {
-        additionalInformation: {
-          simCard: simCardController.simCard
-        },
-        ...
-      }
-
-      return {
-        orderRow: function() { 
-          return Bacon.combineTemplate(outputOrderRowTemplate) 
-        },
-        ...
-      }
-    }
-  </code></pre>
-</section>
-
-
-<section>
-  <h2>~Last words~</h2>
-  <ul>
-<li>Abstractions for events and state
-<li>Low-level to application-level
-<li>Plugs into anything
-<li>No silver bullet
-</ul>
+  <h2>Last words</h2>
 </section>
         
         <section>
-          <h1>K THX BYE</h1>
           <h4>Bacon.js</h4>
-          <h4>Juha Paananen @raimohanska</h4>
-          <h4>Olli Mahlamäki @omahlama</h4>
+          <h1>K THX BYE</h1>
+          <h4>@raimohanska (Juha Paananen)</h4>
         </section>
 
 			</div>
@@ -240,9 +171,10 @@ function ShoppingCart(addItemE, removeItemE) {
 			});
 
 		</script>
-    <script src="js/Bacon.js"></script>
+    <script src="baconjs/dist/Bacon.js"></script>
     <script src="js/bacon.matchers.js"></script>
     <script src="js/lodash.js"></script>
     <script src="bacon-preso.js"> </script>
+    <script src="/socket.io/socket.io.js"></script>
 	</body>
 </html>
