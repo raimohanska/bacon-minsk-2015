@@ -4,7 +4,6 @@ var http = require('http').Server(app)
 var io = require('socket.io')(http)
 var Bacon = require('baconjs')
 var port = process.env.PORT || 3001
-var b = Bacon.fromEvent
 
 app.use(express.compress())
 app.use(express.json())
@@ -13,9 +12,9 @@ app.use('/baconjs', express.static(__dirname + "/node_modules/baconjs"))
 
 io.on('connection', function(socket){
   console.log('User connected')
-  b(socket, "get-mail")
+  Bacon.fromEvent(socket, "get-mail")
     .flatMap(function() { return Bacon.repeatedly(500, emails) })
-    .takeUntil(b(socket, "disconnect"))
+    .takeUntil(Bacon.fromEvent(socket, "disconnect"))
     .onValue(socket, "emit", "mail")
 })
 
