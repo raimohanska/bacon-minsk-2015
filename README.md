@@ -2,6 +2,8 @@
 
 Please use the arrow keys to navigate left/right and the links below code snippets to run/reveal my example code.
 
+View the slided online at http://raimohanska.github.io/bacon-minsk-2015
+
 ### Description
 
 Introduction to Functional Reactive Programming with the Bacon.js library. A lot of code will be written, explained and run on stage.
