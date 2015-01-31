@@ -118,6 +118,38 @@ var inboxP = mailE
   <h2>Bacon Application</h2>
   <img src="images/components.png">
 </section>
+<section>
+<h2 class="property-demo">Mail App Components</h2>
+<pre><code contenteditable>
+// Input: stream of messages to send
+function MailClient(messagesToSendE) {
+  // Connect using Socket.IO, Websocket, TCP...
+  return { incomingMessagesE // Output: stream of incoming messages }
+}
+
+// Input: stream of messages to send
+function Inbox(incomingMessagesE) {
+  return { inboxP: incomingMessagesE.scan([], ".concat") }
+}
+
+// Implement using JQuery, React, Native...
+function Inboxview(inboxP) {
+}
+
+</code></pre>
+</section>
+
+<section>
+<h2 class="property-demo">Duct Tape</h2>
+<pre><code contenteditable class="runnable">
+</code></pre>
+<endresult>
+var b = new Bacon.Bus()
+b.onValue(bubble)
+
+b.push("Duct tape")
+</endresult>
+</section>
 
 <section>
   <h2>Bacon and React</h2>

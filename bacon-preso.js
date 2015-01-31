@@ -27,8 +27,8 @@ function bubble(text) {
   text = (""+text).replace(" ", " ")
   var vmargin = $(window).height() * 0.1
   var vspace = $(window).height() - 100 - vmargin*2
-  var fontSize = 5/(Math.pow(text.length, 1))
-  var bubbleSize = text.length * 0.5
+  var fontSize = 5/(text.length)
+  var bubbleSize = text.length * 0.6
   var bubble = makeBubble(fontSize*2, bubbleSize*2, 10, 1.0, 1.0)
   makeBubble(fontSize*1.2, bubbleSize*1.2, -1, 0.4, 0.7)
   makeBubble(fontSize*0.7, bubbleSize*0.7, -1, 0.3, 0.5)
